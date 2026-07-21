@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OS Hardening | Security Assessment Dashboard</title>
+  <meta name="description" content="Comprehensive Operating System Hardening and Security Assessment Dashboard for Windows and Linux environments." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== PARTICLE CANVAS ===== -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ===== APP WRAPPER ===== -->
+  <div id="app">
+
+    <!-- ===================== SCREEN: LOGIN ===================== -->
+    <div id="screen-login" class="screen active">
+      <div class="login-container">
+        <div class="login-glow"></div>
+        <div class="login-card">
+          <div class="login-logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 4L6 12V24C6 33.94 13.76 43.26 24 46C34.24 43.26 42 33.94 42 24V12L24 4Z" fill="url(#shield-grad)" stroke="url(#shield-stroke)" stroke-width="1.5"/>
+                <path d="M16 24L21 29L32 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                  <linearGradient id="shield-grad" x1="6" y1="4" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#6C63FF"/>
+                    <stop offset="1" stop-color="#00D4AA"/>
+                  </linearGradient>
+                  <linearGradient id="shield-stroke" x1="6" y1="4" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#8B85FF"/>
+                    <stop offset="1" stop-color="#00F0C0"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-title">OS Hardening</span>
+              <span class="logo-sub">Security Assessment Platform</span>
+            </div>
+          </div>
+
+          <h1 class="login-heading">Welcome Back</h1>
+          <p class="login-subheading">Sign in to access your security dashboard</p>
+
+          <form id="login-form" class="login-form" autocomplete="off">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <div class="input-wrap">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c0-4 3.58-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <input type="text" id="username" placeholder="admin" value="admin" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg>
+                <input type="password" id="password" placeholder="••••••••" value="hardening123" required />
+                <button type="button" class="toggle-pw" id="toggle-pw" aria-label="Show password">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="demo-hint">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Demo credentials pre-filled — just click Sign In
+            </div>
+            <div id="login-error" class="login-error hidden">Invalid username or password</div>
+            <button type="submit" id="login-btn" class="btn btn-primary btn-lg">
+              <span class="btn-text">Sign In</span>
+              <span class="btn-loader hidden"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SCREEN: DASHBOARD ===================== -->
+    <div id="screen-dashboard" class="screen hidden">
+      <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-logo">
+            <div class="logo-icon sm">
+              <svg viewBox="0 0 48 48" fill="none"><path d="M24 4L6 12V24C6 33.94 13.76 43.26 24 46C34.24 43.26 42 33.94 42 24V12L24 4Z" fill="url(#sg2)" stroke="url(#sg3)" stroke-width="1.5"/><path d="M16 24L21 29L32 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="sg2" x1="6" y1="4" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#00D4AA"/></linearGradient><linearGradient id="sg3" x1="6" y1="4" x2="42" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#8B85FF"/><stop offset="1" stop-color="#00F0C0"/></linearGradient></defs></svg>
+            </div>
+            <span>OS Hardening</span>
+          </div>
+          <nav class="sidebar-nav">
+            <button class="nav-item active" data-target="dash-overview" id="nav-overview">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg>
+              <span>Overview</span>
+            </button>
+            <button class="nav-item" data-target="dash-windows" id="nav-windows">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".7"/><rect x="13" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".7"/><rect x="3" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".7"/><rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".7"/></svg>
+              <span>Windows</span>
+              <span class="nav-badge" id="win-badge"></span>
+            </button>
+            <button class="nav-item" data-target="dash-linux" id="nav-linux">
+              <svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="9" rx="4" ry="5" stroke="currentColor" stroke-width="1.8"/><path d="M7 20c0-2.5 2-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="8" r=".8" fill="currentColor"/><circle cx="14" cy="8" r=".8" fill="currentColor"/></svg>
+              <span>Linux</span>
+              <span class="nav-badge" id="lin-badge"></span>
+            </button>
+            <button class="nav-item" data-target="dash-seccheck" id="nav-seccheck">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3L4 7v5c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V7l-8-4z" stroke="currentColor" stroke-width="1.8"/></svg>
+              <span>Security Check</span>
+            </button>
+            <button class="nav-item" data-target="dash-report" id="nav-report">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span>Report</span>
+            </button>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="user-chip">
+              <div class="user-avatar">A</div>
+              <div class="user-info">
+                <span class="user-name">Admin</span>
+                <span class="user-role">Security Analyst</span>
+              </div>
+            </div>
+            <button class="logout-btn" id="logout-btn" title="Logout">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Top Bar -->
+          <header class="topbar">
+            <div class="topbar-left">
+              <button class="menu-toggle" id="menu-toggle" aria-label="Toggle sidebar">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+              <div class="breadcrumb" id="breadcrumb">Overview</div>
+            </div>
+            <div class="topbar-right">
+              <div class="scan-time" id="scan-time">No scan yet</div>
+              <button class="btn btn-primary" id="run-assessment-btn">
+                <svg viewBox="0 0 24 24" fill="none"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
+                Run Full Assessment
+              </button>
+            </div>
+          </header>
+
+          <!-- DASH SECTION: OVERVIEW -->
+          <section class="dash-section active" id="dash-overview">
+            <div class="section-header">
+              <h2>Security Overview</h2>
+              <p>Monitor and assess your operating system hardening posture across Windows and Linux environments.</p>
+            </div>
+
+            <!-- Score Strip -->
+            <div class="score-strip" id="score-strip">
+              <div class="score-strip-gauge">
+                <svg class="gauge-svg" viewBox="0 0 120 70">
+                  <path d="M10 65 A50 50 0 0 1 110 65" fill="none" stroke="#1C2035" stroke-width="10" stroke-linecap="round"/>
+                  <path id="gauge-arc" d="M10 65 A50 50 0 0 1 110 65" fill="none" stroke="url(#gaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157"/>
+                  <defs>
+                    <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#FF4757"/>
+                      <stop offset="50%" stop-color="#FFA502"/>
+                      <stop offset="100%" stop-color="#2ED573"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="gauge-score" id="gauge-score">--</div>
+                <div class="gauge-label">Security Score</div>
+              </div>
+              <div class="score-stats">
+                <div class="stat-item">
+                  <span class="stat-value pass" id="stat-pass">--</span>
+                  <span class="stat-label">Passed</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value warn" id="stat-warn">--</span>
+                  <span class="stat-label">Warnings</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value fail" id="stat-fail">--</span>
+                  <span class="stat-label">Failed</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-value" id="stat-total">21</span>
+                  <span class="stat-label">Total Checks</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Module Cards -->
+            <div class="module-cards">
+              <!-- Windows Card -->
+              <div class="module-card" id="card-windows">
+                <div class="module-card-header">
+                  <div class="module-icon windows-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="13" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="3" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/></svg>
+                  </div>
+                  <div>
+                    <h3>Windows Hardening</h3>
+                    <p>Password Policy &amp; Firewall Configuration</p>
+                  </div>
+                  <div class="module-status" id="win-module-status">
+                    <span class="status-dot idle"></span>
+                    <span>Idle</span>
+                  </div>
+                </div>
+                <div class="module-checks-preview" id="win-preview">
+                  <div class="check-row placeholder"><div class="ph-bar w60"></div><div class="ph-pill"></div></div>
+                  <div class="check-row placeholder"><div class="ph-bar w80"></div><div class="ph-pill"></div></div>
+                  <div class="check-row placeholder"><div class="ph-bar w50"></div><div class="ph-pill"></div></div>
+                </div>
+                <div class="module-progress" id="win-progress" style="display:none">
+                  <div class="progress-bar-wrap"><div class="progress-bar" id="win-pbar"></div></div>
+                  <span id="win-ptext">Scanning…</span>
+                </div>
+                <div class="module-card-footer">
+                  <div class="module-score" id="win-score-display">-- / 10</div>
+                  <button class="btn btn-outline" id="btn-windows" onclick="App.startModule('windows')">
+                    <svg viewBox="0 0 24 24" fill="none"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
+                    Run Windows Checks
+                  </button>
+                </div>
+              </div>
+
+              <!-- Linux Card -->
+              <div class="module-card" id="card-linux">
+                <div class="module-card-header">
+                  <div class="module-icon linux-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="8.5" rx="4" ry="5" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 19.5c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10.2" cy="7.8" r=".8" fill="currentColor"/><circle cx="13.8" cy="7.8" r=".8" fill="currentColor"/><path d="M10.5 10.2a2 2 0 003 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div>
+                    <h3>Linux Hardening</h3>
+                    <p>SSH Security &amp; File Permissions</p>
+                  </div>
+                  <div class="module-status" id="lin-module-status">
+                    <span class="status-dot idle"></span>
+                    <span>Idle</span>
+                  </div>
+                </div>
+                <div class="module-checks-preview" id="lin-preview">
+                  <div class="check-row placeholder"><div class="ph-bar w70"></div><div class="ph-pill"></div></div>
+                  <div class="check-row placeholder"><div class="ph-bar w55"></div><div class="ph-pill"></div></div>
+                  <div class="check-row placeholder"><div class="ph-bar w85"></div><div class="ph-pill"></div></div>
+                </div>
+                <div class="module-progress" id="lin-progress" style="display:none">
+                  <div class="progress-bar-wrap"><div class="progress-bar" id="lin-pbar"></div></div>
+                  <span id="lin-ptext">Scanning…</span>
+                </div>
+                <div class="module-card-footer">
+                  <div class="module-score" id="lin-score-display">-- / 11</div>
+                  <button class="btn btn-outline" id="btn-linux" onclick="App.startModule('linux')">
+                    <svg viewBox="0 0 24 24" fill="none"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
+                    Run Linux Checks
+                  </button>
+                </div>
+              </div>
+
+              <!-- Security Check Card -->
+              <div class="module-card" id="card-seccheck">
+                <div class="module-card-header">
+                  <div class="module-icon sec-icon">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3L4 7v5c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V7l-8-4z" stroke="currentColor" stroke-width="1.8"/></svg>
+                  </div>
+                  <div>
+                    <h3>Security Check</h3>
+                    <p>Aggregate Risk Analysis</p>
+                  </div>
+                  <div class="module-status" id="sec-module-status">
+                    <span class="status-dot idle"></span>
+                    <span>Idle</span>
+                  </div>
+                </div>
+                <div class="sec-check-grid" id="sec-check-grid">
+                  <div class="sec-check-item"><span class="sec-label">Critical</span><span class="sec-count" id="sec-crit">--</span></div>
+                  <div class="sec-check-item"><span class="sec-label">High</span><span class="sec-count" id="sec-high">--</span></div>
+                  <div class="sec-check-item"><span class="sec-label">Medium</span><span class="sec-count" id="sec-med">--</span></div>
+                  <div class="sec-check-item"><span class="sec-label">Low</span><span class="sec-count" id="sec-low">--</span></div>
+                </div>
+                <div class="module-card-footer" style="margin-top:auto">
+                  <div class="module-score" id="sec-score-display">Awaiting Scan</div>
+                  <button class="btn btn-outline" id="btn-seccheck" onclick="App.navTo('dash-seccheck')" disabled>
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flow Steps -->
+            <div class="flow-steps" id="flow-steps">
+              <div class="flow-step" id="fstep-login"><div class="fstep-dot done"></div><span>Login</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-dash"><div class="fstep-dot done"></div><span>Dashboard</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-win"><div class="fstep-dot" id="fd-win"></div><span>Windows</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-lin"><div class="fstep-dot" id="fd-lin"></div><span>Linux</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-sec"><div class="fstep-dot" id="fd-sec"></div><span>Security Check</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-score"><div class="fstep-dot" id="fd-score"></div><span>Score</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-rec"><div class="fstep-dot" id="fd-rec"></div><span>Recommendations</span></div>
+              <div class="flow-connector"></div>
+              <div class="flow-step" id="fstep-rep"><div class="fstep-dot" id="fd-rep"></div><span>Report</span></div>
+            </div>
+          </section>
+
+          <!-- DASH SECTION: WINDOWS HARDENING -->
+          <section class="dash-section hidden" id="dash-windows">
+            <div class="section-header">
+              <h2>
+                <span class="section-icon windows-icon">
+                  <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="13" y="3" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="3" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/><rect x="13" y="13" width="8" height="8" rx="1" fill="currentColor" opacity=".9"/></svg>
+                </span>
+                Windows Hardening
+              </h2>
+              <p>Password Policy Analysis and Firewall Configuration Status</p>
+            </div>
+
+            <div class="checks-grid">
+              <!-- Password Policy -->
+              <div class="checks-panel">
+                <div class="panel-header">
+                  <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg>
+                  <h3>Password Policy</h3>
+                </div>
+                <div class="checks-list" id="win-pw-checks"></div>
+              </div>
+              <!-- Firewall Status -->
+              <div class="checks-panel">
+                <div class="panel-header">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.8"/></svg>
+                  <h3>Firewall Status</h3>
+                </div>
+                <div class="checks-list" id="win-fw-checks"></div>
+              </div>
+            </div>
+
+            <div class="section-actions">
+              <button class="btn btn-outline" onclick="App.navTo('dash-overview')">← Back</button>
+              <button class="btn btn-primary" onclick="App.startModule('windows')" id="win-rerun-btn">Re-run Windows Checks</button>
+            </div>
+          </section>
+
+          <!-- DASH SECTION: LINUX HARDENING -->
+          <section class="dash-section hidden" id="dash-linux">
+            <div class="section-header">
+              <h2>
+                <span class="section-icon linux-icon">
+                  <svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="8.5" rx="4" ry="5" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 19.5c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10.2" cy="7.8" r=".8" fill="currentColor"/><circle cx="13.8" cy="7.8" r=".8" fill="currentColor"/></svg>
+                </span>
+                Linux Hardening
+              </h2>
+              <p>SSH Security Configuration and File Permission Analysis</p>
+            </div>
+
+            <div class="checks-grid">
+              <!-- SSH Security -->
+              <div class="checks-panel">
+                <div class="panel-header">
+                  <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 10h20M8 2l-2 4M16 2l-2 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  <h3>SSH Security</h3>
+                </div>
+                <div class="checks-list" id="lin-ssh-checks"></div>
+              </div>
+              <!-- File Permissions -->
+              <div class="checks-panel">
+                <div class="panel-header">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15" r="2" stroke="currentColor" stroke-width="1.8"/><path d="M12 13v-2M12 19v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  <h3>File Permissions Analysis</h3>
+                </div>
+                <div class="checks-list" id="lin-fp-checks"></div>
+              </div>
+            </div>
+
+            <div class="section-actions">
+              <button class="btn btn-outline" onclick="App.navTo('dash-overview')">← Back</button>
+              <button class="btn btn-primary" onclick="App.startModule('linux')" id="lin-rerun-btn">Re-run Linux Checks</button>
+            </div>
+          </section>
+
+          <!-- DASH SECTION: SECURITY CHECK -->
+          <section class="dash-section hidden" id="dash-seccheck">
+            <div class="section-header">
+              <h2>
+                <span class="section-icon sec-icon">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3L4 7v5c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V7l-8-4z" stroke="currentColor" stroke-width="1.8"/></svg>
+                </span>
+                Security Check
+              </h2>
+              <p>Comprehensive risk analysis across all assessment categories</p>
+            </div>
+
+            <div class="severity-summary" id="severity-summary">
+              <div class="sev-card critical"><div class="sev-icon">🔴</div><div class="sev-label">Critical</div><div class="sev-num" id="sev-crit">--</div></div>
+              <div class="sev-card high"><div class="sev-icon">🟠</div><div class="sev-label">High</div><div class="sev-num" id="sev-high">--</div></div>
+              <div class="sev-card medium"><div class="sev-icon">🟡</div><div class="sev-label">Medium</div><div class="sev-num" id="sev-med">--</div></div>
+              <div class="sev-card low"><div class="sev-icon">🟢</div><div class="sev-label">Low</div><div class="sev-num" id="sev-low">--</div></div>
+            </div>
+
+            <div class="all-checks-container" id="all-checks-list"></div>
+
+            <div class="section-actions">
+              <button class="btn btn-outline" onclick="App.navTo('dash-overview')">← Back</button>
+              <button class="btn btn-primary" onclick="App.showScore()" id="calc-score-btn" disabled>Calculate Security Score →</button>
+            </div>
+          </section>
+
+          <!-- DASH SECTION: REPORT -->
+          <section class="dash-section hidden" id="dash-report">
+            <div class="section-header">
+              <h2>Security Report</h2>
+              <p>Full assessment report — printable and exportable</p>
+            </div>
+
+            <div class="report-content" id="report-content">
+              <div class="report-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" style="width:48px;height:48px;opacity:.3"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <p>Run a full assessment to generate your security report</p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- ===================== MODAL: SCORE ===================== -->
+    <div id="modal-score" class="modal-overlay hidden">
+      <div class="modal-card modal-score-card">
+        <div class="modal-header">
+          <h2>Security Score</h2>
+          <button class="modal-close" onclick="App.closeModal('modal-score')">✕</button>
+        </div>
+        <div class="big-gauge-wrap">
+          <svg class="big-gauge-svg" viewBox="0 0 200 120">
+            <path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#1C2035" stroke-width="16" stroke-linecap="round"/>
+            <path id="big-gauge-arc" d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="url(#bigGaugeGrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/>
+            <defs>
+              <linearGradient id="bigGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#FF4757"/>
+                <stop offset="50%" stop-color="#FFA502"/>
+                <stop offset="100%" stop-color="#2ED573"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="big-score" id="big-score">0</div>
+          <div class="big-score-label" id="big-score-label">Calculating…</div>
+        </div>
+        <div class="score-breakdown" id="score-breakdown"></div>
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="App.closeModal('modal-score')">Close</button>
+          <button class="btn btn-primary" onclick="App.showRecommendations()">View Recommendations →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== MODAL: RECOMMENDATIONS ===================== -->
+    <div id="modal-recs" class="modal-overlay hidden">
+      <div class="modal-card modal-recs-card">
+        <div class="modal-header">
+          <h2>Security Recommendations</h2>
+          <button class="modal-close" onclick="App.closeModal('modal-recs')">✕</button>
+        </div>
+        <div class="recs-intro">
+          <p>The following actions are recommended to improve your security posture, ordered by priority.</p>
+        </div>
+        <div class="recs-list" id="recs-list"></div>
+        <div class="modal-actions">
+          <button class="btn btn-outline" onclick="App.closeModal('modal-recs')">Close</button>
+          <button class="btn btn-primary" onclick="App.generateReport()">
+            <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8"/></svg>
+            Generate Full Report →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== MODAL: FULL REPORT ===================== -->
+    <div id="modal-report" class="modal-overlay hidden">
+      <div class="modal-card modal-report-card">
+        <div class="modal-header">
+          <h2>Security Assessment Report</h2>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn btn-outline btn-sm" onclick="window.print()">
+              <svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" stroke="currentColor" stroke-width="1.8"/><rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="1.8"/></svg>
+              Print / Export PDF
+            </button>
+            <button class="modal-close" onclick="App.closeModal('modal-report')">✕</button>
+          </div>
+        </div>
+        <div class="full-report" id="full-report-content"></div>
+      </div>
+    </div>
+
+    <!-- ===================== TOAST ===================== -->
+    <div id="toast" class="toast hidden"></div>
+
+  </div><!-- /#app -->
+
+  <script src="app.js"></script>
+</body>
+</html>
